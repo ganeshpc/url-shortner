@@ -4,8 +4,6 @@ import com.urlshortener.dto.ShortenUrlRequest;
 import com.urlshortener.dto.ShortenUrlResponse;
 import com.urlshortener.model.Url;
 import com.urlshortener.service.UrlShortenerService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
@@ -17,9 +15,12 @@ import java.util.Optional;
 @CrossOrigin(origins = "http://localhost:3000")
 public class UrlController {
     
-    @Autowired
-    private UrlShortenerService urlShortenerService;
-    
+    private final UrlShortenerService urlShortenerService;
+
+    public UrlController(UrlShortenerService urlShortenerService) {
+        this.urlShortenerService = urlShortenerService;
+    }
+
     @PostMapping("/api/shorten")
     public ResponseEntity<ShortenUrlResponse> shortenUrl(@Valid @RequestBody ShortenUrlRequest request) {
         try {
