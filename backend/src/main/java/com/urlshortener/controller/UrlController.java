@@ -12,7 +12,7 @@ import jakarta.validation.Valid;
 import java.util.Optional;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "${app.cors.allowed-origins}")
 public class UrlController {
     
     private final UrlShortenerService urlShortenerService;
