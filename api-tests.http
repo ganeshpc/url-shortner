@@ -1,49 +1,70 @@
 ### URL Shortener API Tests
 
-# Test 1: Shorten a URL
-POST http://localhost:8080/api/shorten
+# Variables
+@baseUrl = http://localhost:8080
+@apiUrl = {{baseUrl}}/api
+@shortCode = sGIy40
+@googleUrl = https://www.google.com
+@githubUrl = https://www.github.com
+@stackoverflowUrl = https://www.stackoverflow.com
+@invalidUrl = invalid-url
+@emptyUrl = 
+
+### Test 1: Shorten a URL
+POST {{apiUrl}}/shorten
 Content-Type: application/json
 
 {
-  "originalUrl": "https://www.google.com"
+  "originalUrl": "{{googleUrl}}"
 }
 
 ###
 
-# Test 2: Shorten another URL
-POST http://localhost:8080/api/shorten
+### Test 2: Shorten another URL
+POST {{apiUrl}}/shorten
 Content-Type: application/json
 
 {
-  "originalUrl": "https://www.github.com"
+  "originalUrl": "{{githubUrl}}"
 }
 
 ###
 
-# Test 3: Get URL stats (replace 'abc123' with actual short code from above)
-GET http://localhost:8080/api/stats/abc123
+### Test 3: Get URL stats (replace shortCode variable above with actual value)
+GET {{apiUrl}}/stats/{{shortCode}}
 
 ###
 
-# Test 4: Test redirection (replace 'abc123' with actual short code)
-GET http://localhost:8080/abc123
+### Test 4: Test redirection (replace shortCode variable above with actual value)
+GET {{baseUrl}}/{{shortCode}}
 
 ###
 
-# Test 5: Test invalid URL
-POST http://localhost:8080/api/shorten
+### Test 5: Test invalid URL
+POST {{apiUrl}}/shorten
 Content-Type: application/json
 
 {
-  "originalUrl": "invalid-url"
+  "originalUrl": "{{invalidUrl}}"
 }
 
 ###
 
-# Test 6: Test empty request
-POST http://localhost:8080/api/shorten
+### Test 6: Test empty request
+POST {{apiUrl}}/shorten
 Content-Type: application/json
 
 {
-  "originalUrl": ""
+  "originalUrl": "{{emptyUrl}}"
+}
+
+###
+
+### Test 7: Test with different URL
+# @baseUrl = http://localhost:3001
+POST {{apiUrl}}/shorten
+Content-Type: application/json
+
+{
+  "originalUrl": "{{stackoverflowUrl}}"
 }
