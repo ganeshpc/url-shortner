@@ -2,7 +2,6 @@ package com.urlshortener.service;
 
 import com.urlshortener.model.Url;
 import com.urlshortener.repository.UrlRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -12,11 +11,13 @@ public class UrlShortenerService {
     
     private static final int MAX_RETRY_ATTEMPTS = 5;
     
-    @Autowired
-    private UrlRepository urlRepository;
+    private final UrlRepository urlRepository;
+    private final ShortCodeGenerator shortCodeGenerator;
     
-    @Autowired
-    private ShortCodeGenerator shortCodeGenerator;
+    public UrlShortenerService(UrlRepository urlRepository, ShortCodeGenerator shortCodeGenerator) {
+        this.urlRepository = urlRepository;
+        this.shortCodeGenerator = shortCodeGenerator;
+    }
     
     /**
      * Shorten a URL using production-grade short code generation
