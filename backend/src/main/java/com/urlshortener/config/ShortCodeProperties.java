@@ -5,10 +5,12 @@ import org.springframework.stereotype.Component;
 
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
+import lombok.Data;
 
 /**
  * Configuration properties for short code generation
  */
+@Data
 @Component
 @ConfigurationProperties(prefix = "app.shortcode")
 public class ShortCodeProperties {
@@ -60,38 +62,5 @@ public class ShortCodeProperties {
         public String getCharacters() {
             return characters;
         }
-    }
-    
-    // Getters and Setters
-    public int getLength() {
-        return length;
-    }
-    
-    public void setLength(int length) {
-        this.length = length;
-    }
-    
-    public int getMaxRetryAttempts() {
-        return maxRetryAttempts;
-    }
-    
-    public void setMaxRetryAttempts(int maxRetryAttempts) {
-        this.maxRetryAttempts = maxRetryAttempts;
-    }
-    
-    public GenerationStrategy getStrategy() {
-        return strategy;
-    }
-    
-    public void setStrategy(GenerationStrategy strategy) {
-        this.strategy = strategy;
-    }
-    
-    public CharacterSet getCharacterSet() {
-        return characterSet;
-    }
-    
-    public void setCharacterSet(CharacterSet characterSet) {
-        this.characterSet = characterSet;
     }
 }

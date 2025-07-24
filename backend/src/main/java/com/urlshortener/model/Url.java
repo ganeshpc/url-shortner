@@ -2,10 +2,17 @@ package com.urlshortener.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "urls")
+@Getter
+@Setter
+@NoArgsConstructor
 public class Url {
     
     @Id
@@ -26,10 +33,6 @@ public class Url {
     @Column(name = "click_count", nullable = false)
     private Long clickCount = 0L;
     
-    public Url() {
-        this.createdAt = LocalDateTime.now();
-    }
-    
     public Url(String originalUrl, String shortCode) {
         this.originalUrl = originalUrl;
         this.shortCode = shortCode;
@@ -37,45 +40,14 @@ public class Url {
         this.clickCount = 0L;
     }
     
-    // Getters and Setters
-    public Long getId() {
-        return id;
-    }
-    
-    public void setId(Long id) {
-        this.id = id;
-    }
-    
-    public String getOriginalUrl() {
-        return originalUrl;
-    }
-    
-    public void setOriginalUrl(String originalUrl) {
-        this.originalUrl = originalUrl;
-    }
-    
-    public String getShortCode() {
-        return shortCode;
-    }
-    
-    public void setShortCode(String shortCode) {
-        this.shortCode = shortCode;
-    }
-    
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-    
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-    
-    public Long getClickCount() {
-        return clickCount;
-    }
-    
-    public void setClickCount(Long clickCount) {
-        this.clickCount = clickCount;
+    @PrePersist
+    protected void onCreate() {
+        if (createdAt == null) {
+            createdAt = LocalDateTime.now();
+        }
+        if (clickCount == null) {
+            clickCount = 0L;
+        }
     }
     
     public void incrementClickCount() {

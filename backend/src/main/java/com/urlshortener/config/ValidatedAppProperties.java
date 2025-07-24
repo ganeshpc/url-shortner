@@ -1,13 +1,14 @@
 package com.urlshortener.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.annotation.Validated;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
+import lombok.Data;
 
+@Data
 @Component
 @ConfigurationProperties(prefix = "app")
 @Validated
@@ -23,41 +24,9 @@ public class ValidatedAppProperties {
     
     private Cors cors = new Cors();
     
-    // Getters and Setters
-    public String getBaseUrl() {
-        return baseUrl;
-    }
-    
-    public void setBaseUrl(String baseUrl) {
-        this.baseUrl = baseUrl;
-    }
-    
-    public String getFrontendUrl() {
-        return frontendUrl;
-    }
-    
-    public void setFrontendUrl(String frontendUrl) {
-        this.frontendUrl = frontendUrl;
-    }
-    
-    public Cors getCors() {
-        return cors;
-    }
-    
-    public void setCors(Cors cors) {
-        this.cors = cors;
-    }
-    
+    @Data
     public static class Cors {
         @NotBlank(message = "Allowed origins cannot be blank")
         private String allowedOrigins;
-        
-        public String getAllowedOrigins() {
-            return allowedOrigins;
-        }
-        
-        public void setAllowedOrigins(String allowedOrigins) {
-            this.allowedOrigins = allowedOrigins;
-        }
     }
 }
