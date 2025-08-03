@@ -38,9 +38,8 @@ public class UrlShortenerService {
     public Optional<Url> getOriginalUrl(String shortCode) {
         Optional<Url> url = urlRepository.findByShortCode(shortCode);
         if (url.isPresent()) {
-            Url urlEntity = url.get();
-            urlEntity.incrementClickCount();
-            urlRepository.save(urlEntity);
+            // Atomic increment to avoid race conditions
+            // urlRepository.incrementClickCount(shortCode);
         }
         return url;
     }
