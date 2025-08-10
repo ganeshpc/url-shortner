@@ -6,6 +6,7 @@ import com.urlshortener.dto.ShortenUrlResponse;
 import com.urlshortener.model.Url;
 import com.urlshortener.service.RateLimiterService;
 import com.urlshortener.service.UrlShortenerService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +25,7 @@ public class UrlController {
     private final AppProperties appProperties;
 
     public UrlController(UrlShortenerService urlShortenerService, 
-                        RateLimiterService rateLimiterService,
+                        @Autowired(required = false) RateLimiterService rateLimiterService,
                         AppProperties appProperties) {
         this.urlShortenerService = urlShortenerService;
         this.rateLimiterService = rateLimiterService;
@@ -34,11 +35,13 @@ public class UrlController {
     @PostMapping("/api/shorten")
     public ResponseEntity<?> shortenUrl(@Valid @RequestBody ShortenUrlRequest request,
                                         HttpServletRequest httpRequest) {
-        // Rate limiting by IP address
-        String clientIp = getClientIpAddress(httpRequest);
-        if (!rateLimiterService.isAllowed(clientIp)) {
-            return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS)
-                    .body("Rate limit exceeded. Please try again later.");
+        // Rate limiting by IP address (if rate limiter is available)
+        if (rateLimiterService != null) {
+            String clientIp = getClientIpAddress(httpRequest);
+            if (!rateLimiterService.isAllowed(clientIp)) {
+                return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS)
+                        .body("Rate limit exceeded. Please try again later.");
+            }
         }
         
         try {

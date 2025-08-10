@@ -3,6 +3,7 @@ package com.urlshortener.service;
 import com.urlshortener.model.Url;
 import com.urlshortener.repository.UrlRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -33,15 +34,10 @@ public class UrlShortenerService {
     }
     
     /**
-     * Get original URL and increment click count atomically
+     * Get original URL for redirect (simple version without click tracking for now)
      */
     public Optional<Url> getOriginalUrl(String shortCode) {
-        Optional<Url> url = urlRepository.findByShortCode(shortCode);
-        if (url.isPresent()) {
-            // Atomic increment to avoid race conditions
-            urlRepository.incrementClickCount(shortCode);
-        }
-        return url;
+        return urlRepository.findByShortCode(shortCode);
     }
     
     /**

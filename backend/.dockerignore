@@ -1,0 +1,14 @@
+# Backend .dockerignore
+target/
+!target/*.jar
+.mvn/
+mvnw
+mvnw.cmd
+.git
+.gitignore
+*.md
+.env*
+.vscode
+.DS_Store
+*.log
+*.tmp

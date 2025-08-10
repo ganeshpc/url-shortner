@@ -1,31 +1,101 @@
 # URL Shortener
 
-A modern URL shortener application built with Java Spring Boot backend and React frontend.
+A production-ready URL shortener application built with Java Spring Boot backend and React (Vite) frontend.
 
-## Features
+## ✨ Features
 
 - 🔗 Shorten long URLs into easy-to-share short links
 - 📊 Click tracking and analytics
 - 🚀 Fast and reliable service
-- 🔒 Secure URL handling
+- 🔒 Secure URL handling with rate limiting
 - 📱 Responsive design
 - ⚡ Real-time URL validation
+- 🐳 Docker & Docker Compose ready
+- 🌐 Production-ready with PostgreSQL and Redis
+- 📈 Health checks and monitoring
+- 🔧 Development and production environments
 
-## Tech Stack
+## 🛠️ Tech Stack
 
 ### Backend
 - Java 17
 - Spring Boot 3.2.1
 - Spring Data JPA
-- H2 Database (in-memory for development)
+- Spring Security
+- PostgreSQL (production) / H2 (development)
+- Redis (caching and rate limiting)
+- Flyway (database migrations)
 - Maven
 
 ### Frontend
 - React 18
+- Vite (build tool)
 - React Router DOM
 - Axios for API calls
-- Modern CSS with backdrop filters
-- Responsive design
+- Modern CSS with responsive design
+
+### Infrastructure
+- Docker & Docker Compose
+- Nginx (production frontend serving)
+- Health checks and monitoring
+
+## 🚀 Quick Start
+
+### Development Environment
+
+1. **Clone the repository**
+```bash
+git clone <repository-url>
+cd url-shortener
+```
+
+2. **Set up Java 17 (Required for local development)**
+```bash
+./setup-java.sh
+```
+
+3. **Option A: Docker Development (Recommended)**
+```bash
+./start-dev.sh
+```
+
+4. **Option B: Local Development**
+```bash
+# Backend (in one terminal)
+cd backend
+export JAVA_HOME=/home/codespace/java/17.0.15-ms
+export PATH=$JAVA_HOME/bin:$PATH
+mvn spring-boot:run -Dspring-boot.run.profiles=dev
+
+# Frontend (in another terminal)
+cd frontend
+npm install
+npm run dev
+```
+
+**Access the application:**
+- Frontend: http://localhost:5173
+- Backend API: http://localhost:8080
+- H2 Console: http://localhost:8080/h2-console
+- Health Check: http://localhost:8080/actuator/health
+
+### Production Deployment
+
+1. **Set up environment**
+```bash
+cp .env.example .env
+# Edit .env with your production values
+```
+
+2. **Deploy**
+```bash
+./deploy.sh
+```
+
+**Access the application:**
+- Frontend: http://localhost:3000
+- Backend API: http://localhost:8080
+- Health Check: http://localhost:8080/actuator/health
 
 ## Project Structure
 

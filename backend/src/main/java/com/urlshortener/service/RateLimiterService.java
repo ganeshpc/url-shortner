@@ -1,11 +1,15 @@
 package com.urlshortener.service;
 
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
 
 @Service
+@ConditionalOnClass(StringRedisTemplate.class)
+@ConditionalOnProperty(name = "spring.redis.host")
 public class RateLimiterService {
     
     private final StringRedisTemplate redisTemplate;
