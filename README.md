@@ -74,7 +74,7 @@ npm run dev
 ```
 
 **Access the application:**
-- Frontend: http://localhost:5173
+- Frontend: http://localhost:3000
 - Backend API: http://localhost:8080
 - H2 Console: http://localhost:8080/h2-console
 - Health Check: http://localhost:8080/actuator/health

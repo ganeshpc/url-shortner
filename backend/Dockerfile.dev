@@ -1,0 +1,15 @@
+# Development Dockerfile
+FROM maven:3.9.6-eclipse-temurin-17 AS build
+
+# Set working directory
+WORKDIR /app
+
+# Copy pom.xml and download dependencies
+COPY pom.xml .
+RUN mkdir -p src/main/java && mvn dependency:go-offline -B
+
+# Expose ports
+EXPOSE 8080 5005
+
+# Run the application in development mode with debug enabled
+CMD ["mvn", "spring-boot:run", "-Dspring-boot.run.profiles=dev", "-Dspring-boot.run.jvmArguments=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005"]

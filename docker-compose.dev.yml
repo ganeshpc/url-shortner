@@ -34,13 +34,17 @@ services:
   backend:
     build: 
       context: ./backend
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.dev
     ports:
       - "8080:8080"
+      - "5005:5005"
+    volumes:
+      - ./backend/src:/app/src
+      - ./backend/pom.xml:/app/pom.xml
     environment:
       SPRING_PROFILES_ACTIVE: dev
       BASE_URL: ${BASE_URL:-http://localhost:8080}
-      CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:5173,http://localhost:3000}
+      CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:3000}
       DB_HOST: postgres
       DB_PORT: 5432
       DB_NAME: ${DB_NAME:-urlshortener}
@@ -66,7 +70,7 @@ services:
       context: ./frontend
       dockerfile: Dockerfile.dev
     ports:
-      - "5173:5173"
+      - "3000:3000"
     environment:
       VITE_API_URL: ${VITE_API_URL:-http://localhost:8080}
     depends_on:

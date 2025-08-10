@@ -14,31 +14,8 @@ RUN npm ci
 COPY . .
 
 # Expose Vite dev server port
-EXPOSE 5173
+EXPOSE 3000
 
 # Start Vite development server with hot reload
 CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0"]
 
-# # Copy built React app
-# COPY --from=build /app/build /usr/share/nginx/html
-
-# # Add non-root user for security
-# RUN addgroup -g 1001 -S nginx-group && \
-#     adduser -S nginx-user -u 1001 -G nginx-group && \
-#     chown -R nginx-user:nginx-group /usr/share/nginx/html && \
-#     chown -R nginx-user:nginx-group /var/cache/nginx && \
-#     chown -R nginx-user:nginx-group /var/log/nginx && \
-#     chown -R nginx-user:nginx-group /etc/nginx/conf.d
-
-# # Switch to non-root user
-# USER nginx-user
-
-# # Expose port
-# EXPOSE 80
-
-# # Health check
-# HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-#   CMD wget --no-verbose --tries=1 --spider http://localhost:80/ || exit 1
-
-# # Start nginx
-# CMD ["nginx", "-g", "daemon off;"]

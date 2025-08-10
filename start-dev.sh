@@ -44,7 +44,7 @@ fi
 
 echo "✅ Development environment is ready!"
 echo "🌐 Backend: http://localhost:8080"
-echo "🌐 Frontend: http://localhost:5173"
+echo "🌐 Frontend: http://localhost:3000"
 echo "🔧 H2 Console: http://localhost:8080/h2-console"
 echo "📊 Health: http://localhost:8080/actuator/health"
 echo ""

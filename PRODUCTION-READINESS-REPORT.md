@@ -97,7 +97,7 @@ cp .env.example .env  # Configure for your environment
 ## 📊 **Service Architecture**
 
 ### **Development Ports**
-- **Frontend (Vite)**: `5173`
+- **Frontend (Vite)**: `3000`
 - **Backend**: `8080`
 - **PostgreSQL**: `5432`
 - **Redis**: `6379`
@@ -119,8 +119,8 @@ cp .env.example .env  # Configure for your environment
 | `DB_HOST` | `localhost` | `postgres` | Database host |
 | `DB_PASSWORD` | `devpassword123` | `secure_password` | Database password |
 | `BASE_URL` | `http://localhost:8080` | `https://yourdomain.com` | Backend URL |
-| `FRONTEND_URL` | `http://localhost:5173` | `https://yourdomain.com` | Frontend URL |
-| `CORS_ORIGINS` | `http://localhost:5173` | `https://yourdomain.com` | Allowed CORS origins |
+| `FRONTEND_URL` | `http://localhost:3000` | `https://yourdomain.com` | Frontend URL |
+| `CORS_ORIGINS` | `http://localhost:3000` | `https://yourdomain.com` | Allowed CORS origins |
 
 ---
 
@@ -155,7 +155,7 @@ cd url-shortener
 ```
 
 Access:
-- Frontend: http://localhost:5173
+- Frontend: http://localhost:3000
 - Backend: http://localhost:8080
 - H2 Console: http://localhost:8080/h2-console
 
