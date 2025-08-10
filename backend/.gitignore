@@ -68,4 +68,5 @@ spring.log
 # Application specific
 application-local.properties
 application-dev.properties
+application-prod.properties
 /logs/

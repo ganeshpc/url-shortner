@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import './UrlShortener.css';
 
+// Configure API base URL from environment
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:8080';
+
 const UrlShortener = () => {
   const [originalUrl, setOriginalUrl] = useState('');
   const [shortUrl, setShortUrl] = useState('');
@@ -17,14 +20,27 @@ const UrlShortener = () => {
     setCopied(false);
 
     try {
-      const response = await axios.post('/api/shorten', {
+      const response = await axios.post(`${API_BASE_URL}/api/shorten`, {
         originalUrl: originalUrl
+      }, {
+        timeout: 10000, // 10 second timeout
+        headers: {
+          'Content-Type': 'application/json'
+        }
       });
       
       setShortUrl(response.data.shortUrl);
     } catch (err) {
-      if (err.response?.status === 400) {
+      console.error('Error shortening URL:', err);
+      
+      if (err.code === 'ECONNABORTED') {
+        setError('Request timeout. Please try again.');
+      } else if (err.response?.status === 429) {
+        setError('Too many requests. Please wait a moment and try again.');
+      } else if (err.response?.status === 400) {
         setError('Please enter a valid URL starting with http:// or https://');
+      } else if (err.response?.status >= 500) {
+        setError('Server error. Please try again later.');
       } else {
         setError('Something went wrong. Please try again.');
       }

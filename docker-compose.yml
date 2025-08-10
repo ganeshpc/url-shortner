@@ -15,6 +15,7 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    restart: unless-stopped
 
   redis:
     image: redis:7-alpine
@@ -28,18 +29,20 @@ services:
       interval: 10s
       timeout: 3s
       retries: 3
+    restart: unless-stopped
 
   app:
-    build: ./backend
+    build: 
+      context: ./backend
+      dockerfile: Dockerfile
     ports:
       - "8080:8080"
-      - "8082:8082"
     environment:
-      SPRING_PROFILES_ACTIVE: dev
-      # DB_USERNAME: urlshortener
-      # DB_PASSWORD: ${DB_PASSWORD:-changeme}
-      # BASE_URL: ${BASE_URL:-http://localhost:8080}
-      # CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:3000}
+      SPRING_PROFILES_ACTIVE: prod
+      DB_USERNAME: urlshortener
+      DB_PASSWORD: ${DB_PASSWORD:-changeme}
+      BASE_URL: ${BASE_URL:-http://localhost:8080}
+      CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:3000}
     depends_on:
       postgres:
         condition: service_healthy
@@ -51,6 +54,25 @@ services:
       timeout: 10s
       retries: 3
       start_period: 60s
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+    ports:
+      - "3000:80"
+    environment:
+      REACT_APP_API_BASE_URL: ${BASE_URL:-http://localhost:8080}
+    depends_on:
+      - app
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:80/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    restart: unless-stopped
 
 volumes:
   postgres_data:

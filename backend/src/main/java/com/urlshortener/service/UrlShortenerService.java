@@ -39,7 +39,7 @@ public class UrlShortenerService {
         Optional<Url> url = urlRepository.findByShortCode(shortCode);
         if (url.isPresent()) {
             // Atomic increment to avoid race conditions
-            // urlRepository.incrementClickCount(shortCode);
+            urlRepository.incrementClickCount(shortCode);
         }
         return url;
     }

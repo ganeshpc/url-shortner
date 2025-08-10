@@ -3,7 +3,7 @@
 # Variables
 @baseUrl = http://localhost:8080
 @apiUrl = {{baseUrl}}/api
-@shortCode = sGIy40
+@shortCode = rhmHDht
 @googleUrl = https://www.google.com
 @githubUrl = https://www.github.com
 @stackoverflowUrl = https://www.stackoverflow.com
