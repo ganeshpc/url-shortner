@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import './UrlShortener.css';
 
-// Configure API base URL from environment
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:8080';
+// Use Vite env if provided; fall back to backend dev port
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080';
 
 const UrlShortener = () => {
   const [originalUrl, setOriginalUrl] = useState('');
@@ -23,16 +23,11 @@ const UrlShortener = () => {
       const response = await axios.post(`${API_BASE_URL}/api/shorten`, {
         originalUrl: originalUrl
       }, {
-        timeout: 10000, // 10 second timeout
-        headers: {
-          'Content-Type': 'application/json'
-        }
+        timeout: 10000,
+        headers: { 'Content-Type': 'application/json' }
       });
-      
       setShortUrl(response.data.shortUrl);
     } catch (err) {
-      console.error('Error shortening URL:', err);
-      
       if (err.code === 'ECONNABORTED') {
         setError('Request timeout. Please try again.');
       } else if (err.response?.status === 429) {
@@ -54,9 +49,7 @@ const UrlShortener = () => {
       await navigator.clipboard.writeText(shortUrl);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
-    } catch (err) {
-      console.error('Failed to copy text: ', err);
-    }
+    } catch (err) {}
   };
 
   const isValidUrl = (string) => {
@@ -82,11 +75,7 @@ const UrlShortener = () => {
               className="url-input"
               disabled={loading}
             />
-            <button 
-              type="submit" 
-              disabled={loading || !isValidUrl(originalUrl)}
-              className="shorten-btn"
-            >
+            <button type="submit" disabled={loading || !isValidUrl(originalUrl)} className="shorten-btn">
               {loading ? 'Shortening...' : 'Shorten URL'}
             </button>
           </div>
@@ -103,12 +92,7 @@ const UrlShortener = () => {
             <div className="result-card">
               <h3>Your shortened URL is ready! 🎉</h3>
               <div className="url-result">
-                <input
-                  type="text"
-                  value={shortUrl}
-                  readOnly
-                  className="short-url-input"
-                />
+                <input type="text" value={shortUrl} readOnly className="short-url-input" />
                 <button onClick={handleCopy} className="copy-btn">
                   {copied ? '✓ Copied!' : '📋 Copy'}
                 </button>
